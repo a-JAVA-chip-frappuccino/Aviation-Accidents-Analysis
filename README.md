@@ -1,26 +1,16 @@
-```
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
+### Overview
 
-%matplotlib inline
-```
+In order to better know how to minimize the number of incidents, particularly fatal ones, when flying aircraft, we will be looking into past analytics from the National Transportation Safety Board. This comprises civil aviation accident records from 1962-2023. Then we will discuss some recommendations for how to extrapolate past data into preventing present and future incidents.
 
-### The datasets I will be analyzing comes from a CSV file from the National Transportation Safety Board. It comprises civil aviation accident records from 1962-2023.
+Although we cannot necessarily answer every question regarding how incidents occur, we can consider some elements of the dataset to consider what might be leading to incidents to then rectify them.
+
+### Data Analysis
 
 ```
-# import dataset
-
 df = pd.read_csv('data/Aviation_Data.csv', dtype = {'Event.Id' : str}, low_memory = False)
-
-df.head(3)
 ```
 
-```
-df.columns
-```
-
-The columns listed in plain English:
+The dataset columns:
 - event ID
 - investigation type
 - accident number
@@ -115,9 +105,9 @@ ax.set_ylabel("Total Fatal Incidents")
 plt.show()
 ```
 
-### To conclude, there are far, far more fatal incidents involving amateur aircraft than professional aircraft, likely due to the lack of extreme oversight that goes into professional flights, such as rigorous pilot training and extensive flight and ground crews.
+There appears to be more fatal incidents involving amateur aircraft than professional aircraft, likely due to the lack of vigilant oversight that goes into professional flights, such as rigorous pilot training and extensive flight and ground crews.
 
-### In order to have safer, less fatal flights, a recommendation would be to utilize professional crafts and all the additional benefits that come with these, such as ground crews and dual-pilot crews.
+In order to have safer, less fatal flights, a strong recommendation would be to utilize professional crafts and all the additional benefits that come with these, such as ground crews and dual-pilot crews.
 
 
 
@@ -168,9 +158,9 @@ ax.set_ylabel("Total Fatal Incidents")
 plt.show()
 ```
 
-### A somewhat similar conclusion can be reached in this information as above. The fewer engines in an aircraft, the more fatal crashes it corresponds to. This could be explained by multi-engine craft having more trained flight crew, as concluded previously.
+A somewhat similar conclusion can be gleaned from this data as from the previous set. The fewer engines an aircraft has, the more likely that plane is to be involved in a crash. This could be explained by multi-engine craft having more trained flight crew and pilots, as well as to the inherent "redundancies" built into multiple engines (if one engine is lost, additional engines can temporarily keep the plane afloat if need be).
 
-### A similar recommendation here would be to once again utilize larger aircraft for flight in order to reduce the number of fatal incidents, as well as to prioritize multi-engine craft over glider and prop planes.
+A recommendation from this data would be to once again utilize larger aircraft for flight in order to reduce the number of fatal incidents, as well as to prioritize multi-engine craft over glider and prop planes.
 
 
 
@@ -217,8 +207,10 @@ plt.show()
 
 ### From this information, it becomes immediately apparent that VMC conditions allow for far, far more crashes than IMC conditions (and unknown conditions make up a miniscule percentage of the data). Although this might not make immediate sense, as VMC conditions would be preferable, it could be ascertained that such conditions cause a "false sense of security" or perhaps even a lack of reliance on tools to assist in flying.
 
-### Therefore, a recommendation to better flying conditions would be to fly in IMC conditions more often than in VMC conditions, or otherwise to utilize instruments when flying, as these can be a safety measure.
+VMC conditions appear to contribute to far more crashes than IMC conditions. One probable explanation for this is that the instrumentation required to fly under IMC conditions allows for safer flying, and that simply relying upon visual guidelines for flying is more dangerous.
 
+Therefore, utilizing instruments and tools while flying is a great way to reduce accidents.
 
+### Final Conclusions
 
-### In short, to reduce the number of incidents, and the probability that those incidents are fatal, it is recommended to utilize large, professional aircraft and to take full advantage of the robust instrumentation that comes with such craft.
+In conclusion, to reduce the number of incidents, and the probability that those incidents are fatal, it is recommended to utilize large, professional aircraft and to take full advantage of the robust instrumentation that comes with such craft.
