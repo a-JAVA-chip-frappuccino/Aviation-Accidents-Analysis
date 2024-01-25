@@ -4,7 +4,7 @@ In order to better know how to minimize the number of incidents, particularly fa
 
 Although we cannot necessarily answer every question regarding how incidents occur, we can consider some elements of the dataset to consider what might be leading to incidents to then rectify them.
 
-### Data Analysis
+### Dataset
 
 ```
 df = pd.read_csv('data/Aviation_Data.csv', dtype = {'Event.Id' : str}, low_memory = False)
@@ -45,20 +45,11 @@ The dataset columns:
 
 
 
-### To start our analysis, let's examine the relationship between amateur and professional aircraft when accounting for very severe crashes (crashes including fatalities).
+### Data Analysis
+
+Let's start by cleaning up the list of fatal crashes to group injury severity column into fatal, non-fatal, and misc. injuries.
 
 ```
-# check injury severity levels of all crashes
-
-df['Injury.Severity'].value_counts()
-```
-
-### Looking at the injury severities, there appear to be a lot of names to mean the same thing (for example, the values of *Fatal*, *Fatal(1)*, and *Fatal(228)* all refer to deadly crashes). Let's start by cleaning up this data so that there are only a few specific injury types.
-
-```
-# clean up list of fatal crashes to retrieve all rows
-
-# compile list of rows containing string "Fatal"
 fatal_rows = ['Fatal']
 
 unique_values = set(list(df['Injury.Severity']))
@@ -68,29 +59,24 @@ for value in unique_values:
         if value != 'Non-Fatal' and 'Fatal' in value:
             fatal_rows.append(value)
 
-# apply change to column      
 df['Injury.Severity'] = df['Injury.Severity'].apply(lambda value: "Fatal" if value in fatal_rows else value)
 ```
 
-```
-df['Injury.Severity'].value_counts()
-```
+Then, let's separate the amateur and professional craft into two dataframes, and sum the number of rows under each descriptor.
 
 ```
-# separate amateur and professional builds
-
 df_amateur = df[df['Amateur.Built'] == 'No']
 
 df_prof = df[df['Amateur.Built'] == 'Yes']
+```
 
-# sum amateur and professional builds
-
+```
 total_amateur = df_amateur['Event.Id'].count()
 
 total_prof = df_prof['Event.Id'].count()
 ```
 
-### Now let's tally up the amateur fatal incidents in comparison to the professional fatal incidents.
+Then plot the total fatal accidents by amateur aircraft versus professional aircraft.
 
 ```
 fig, ax = plt.subplots()
@@ -104,6 +90,8 @@ ax.set_ylabel("Total Fatal Incidents")
 
 plt.show()
 ```
+
+
 
 There appears to be more fatal incidents involving amateur aircraft than professional aircraft, likely due to the lack of vigilant oversight that goes into professional flights, such as rigorous pilot training and extensive flight and ground crews.
 
