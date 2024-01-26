@@ -1,6 +1,6 @@
 ### Overview
 
-In order to better know how to minimize the number of incidents, particularly fatal ones, when flying aircraft, we will be looking into past analytics from the National Transportation Safety Board. This comprises civil aviation accident records from 1962-2023. Then we will discuss some recommendations for how to extrapolate past data into preventing present and future incidents.
+In order to better know how to minimize the number of incidents, particularly fatal ones, when flying aircraft, we will be looking into past analytics from the National Transportation Safety Board. This comprises civil aviation accident records from 1962-2023, and has a total number of 90,348 records. Then we will discuss some recommendations for how to extrapolate past data into preventing present and future incidents.
 
 Although we cannot necessarily answer every question regarding how incidents occur, we can consider some elements of the dataset to consider what might be leading to incidents to then rectify them.
 
@@ -81,9 +81,9 @@ Then plot the total fatal accidents by amateur aircraft versus professional airc
 ```
 fig, ax = plt.subplots()
 
-ax.bar("Amateur Aircraft", total_amateur_fatal, color = 'darkblue')
+ax.bar("Amateur Craft", total_amateur_fatal, color = 'darkblue')
 
-ax.bar("Professional Aircraft", total_prof_fatal, color = 'darkblue')
+ax.bar("Professional Craft", total_prof_fatal, color = 'darkblue')
 
 ax.set_title("Fatal Incidents by Aircraft Build Type")
 ax.set_ylabel("Total Fatal Incidents")
@@ -99,33 +99,22 @@ In order to have safer, less fatal flights, a strong recommendation would be to 
 
 
 
-### Another point of consideration could be the number of engines of a plane. In general, single-engine planes are considered tiny (or "prop" planes), and larger planes range from regional flights from major airports to enormous commercial jets flying internationally.
+To examine a different aspect of the robust dataset, let's group zero- and one-engine planes together (as these reflect "small" planes, often called gliders or prop planes) and group planes with two or more engines together (as these reflect "large" planes). We can sum the numbers of each group.
 
 ```
-df['Number.of.Engines'].value_counts()
-```
-
-### Looking at the engine counts, we will combine 1- and 0-engine craft into "small" planes (as these are better for shorter distances, with the latter even reflecting glider craft that do not gain height substantially). The remaining planes can be considered "large".
-
-```
-# combine all one- and two-engine planes into "small planes" category
 
 df['Number.of.Engines'] = df['Number.of.Engines'].apply(lambda value: "Small" if (value == 0.0 or value == 1.0) else value)
 
 df['Number.of.Engines'] = df['Number.of.Engines'].apply(lambda value: "Large" if (value == 2.0 or value == 3.0 or value == 4.0 or value == 6.0 or value == 8.0) else value)
+```
 
-# group planes after cleaning data
-
+```
 df_small = df[df['Number.of.Engines'] == 'Small']
 
 df_large = df[df['Number.of.Engines'] == 'Large']
 ```
 
-```
-df['Number.of.Engines'].value_counts()
-```
-
-### Now let's tally up the small craft fatal incidents in comparison to the large craft fatal incidents.
+Then examine these groups in terms of how many of the incidents under each were fatal.
 
 ```
 total_small_fatal = df_small[df_small['Injury.Severity'] == 'Fatal']['Event.Id'].count()
@@ -133,14 +122,16 @@ total_small_fatal = df_small[df_small['Injury.Severity'] == 'Fatal']['Event.Id']
 total_large_fatal = df_large[df_large['Injury.Severity'] == 'Fatal']['Event.Id'].count()
 ```
 
+Finally, plot the total fatal accidents by zero- or single-engine aircraft compared to multi-engine aircraft.
+
 ```
 fig, ax = plt.subplots()
 
-ax.bar("Few-Engine Aircraft", total_small_fatal, color = 'goldenrod')
+ax.bar("Amateur Craft", total_amateur_fatal, color = 'darkblue')
 
-ax.bar("Multiple-Engine Aircraft", total_large_fatal, color = 'goldenrod')
+ax.bar("Professional Craft", total_prof_fatal, color = 'darkblue')
 
-ax.set_title("Fatal Incidents by Aircraft Engine Number")
+ax.set_title("Fatal Incidents by Aircraft Build Type")
 ax.set_ylabel("Total Fatal Incidents")
 
 plt.show()
@@ -152,25 +143,17 @@ A recommendation from this data would be to once again utilize larger aircraft f
 
 
 
-### As a final conclusion, let us examine the number of incidents based on the weather conditions behind flights.
+To ascertain a third conclusion, let's examine the number of incidents based on the weather conditions behind flights. These conditions are listed in the dataset as VMC (Visual Meterological Conditions), which are conditions in which it is deemed safe to fly by sight alone, and IMC (Instrument Meterological Conditions), which are conditions in which instruments should be used to assist in flight (visibility is reduced).
+
+We can start our analysis by cleaning up the unknown, and to then be unused, conditions.
 
 ```
-df['Weather.Condition'].value_counts()
-```
-
-### To summarize these, VMC means Visual Meterological Conditions, or conditions in which it is deemed safe to fly by sight alone. IMC refers to Instrument Meterological Conditions, in which instruments should be used to assist in flight (visibility is reduced). UNK and Unk both refer to unknown conditions.
-
-### To start cleaning the data, we should combine the final two conditions, as they refer to the same thing (unknown weather condition data).
-
-```
-# apply change to column
-
 df['Weather.Condition'] = df['Weather.Condition'].apply(lambda value : 'UNK' if value == 'UNK' or value == 'Unk' else value)
 ```
 
-```
-# tally number of each weather condition (including unknown)
+Then tally up the records reflecting each weather condition.
 
+```
 total_vmc = df['Weather.Condition'].value_counts()['VMC']
 
 total_imc = df['Weather.Condition'].value_counts()['IMC']
@@ -178,27 +161,29 @@ total_imc = df['Weather.Condition'].value_counts()['IMC']
 total_unk = df['Weather.Condition'].value_counts()['UNK']
 ```
 
+To conclude, plot the total accidents by VMC or IMC conditions.
+
 ```
 fig, ax = plt.subplots()
 
 fig.set_figwidth(10)
 
-ax.bar("Visual Meterological Conditions", total_vmc, color = 'darkred')
+ax.bar("VMC", total_vmc, color = 'darkred')
 
-ax.bar("Instrument Meterological Conditions", total_imc, color = 'darkred')
+ax.bar("IMC", total_imc, color = 'darkred')
 
 ax.set_title("Incidents by Weather Condition Type")
-ax.set_ylabel("Total Number of Crashes")
+ax.set_ylabel("Total Incidents")
 
 plt.show()
 ```
 
-### From this information, it becomes immediately apparent that VMC conditions allow for far, far more crashes than IMC conditions (and unknown conditions make up a miniscule percentage of the data). Although this might not make immediate sense, as VMC conditions would be preferable, it could be ascertained that such conditions cause a "false sense of security" or perhaps even a lack of reliance on tools to assist in flying.
+From this information, it becomes immediately apparent that visual meteorological conditions account for more crashes than instrument meteorological conditions conditions (and unknown conditions make up a miniscule percentage of the data). Although this might not make immediate sense, as visual meteorological conditions conditions would be preferable, it could be ascertained that such conditions cause a "false sense of security" or perhaps even a lack of reliance on tools to assist in flying.
 
-VMC conditions appear to contribute to far more crashes than IMC conditions. One probable explanation for this is that the instrumentation required to fly under IMC conditions allows for safer flying, and that simply relying upon visual guidelines for flying is more dangerous.
+Therefore, a recommendation to better flying conditions would be to fly in instrument meteorological conditions conditions more often than in visual meteorological conditions conditions, or otherwise to utilize instruments when flying, as these can be a safety measure.
 
-Therefore, utilizing instruments and tools while flying is a great way to reduce accidents.
+
 
 ### Final Conclusions
 
-In conclusion, to reduce the number of incidents, and the probability that those incidents are fatal, it is recommended to utilize large, professional aircraft and to take full advantage of the robust instrumentation that comes with such craft.
+In conclusion, to reduce the number of incidents, and the probability that those incidents are fatal, it is recommended to utilize large, professional aircraft and to take full advantage of the robust instrumentation that comes with such craft, as well as ground crew and flight crew. Additionally, as would be expected of larger craft, choose planes with more engines, as this adds redudancy and strength.
