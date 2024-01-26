@@ -93,7 +93,7 @@ ax.set_ylabel("Total Fatal Incidents")
 plt.show()
 ```
 
-
+![Screenshot](data/images/fatal-by-build-plot.png)
 
 There appears to be more fatal incidents involving amateur aircraft than professional aircraft, likely due to the lack of vigilant oversight that goes into professional flights, such as rigorous pilot training and extensive flight and ground crews.
 
@@ -141,6 +141,8 @@ ax.set_ylabel("Total Fatal Incidents")
 plt.show()
 ```
 
+![Screenshot](data/images/fatal-by-engine-plot.png)
+
 A somewhat similar conclusion can be gleaned from this data as from the previous set. The fewer engines an aircraft has, the more likely that plane is to be involved in a crash. This could be explained by multi-engine craft having more trained flight crew and pilots, as well as to the inherent "redundancies" built into multiple engines (if one engine is lost, additional engines can temporarily keep the plane afloat if need be).
 
 A recommendation from this data would be to once again utilize larger aircraft for flight in order to reduce the number of fatal incidents, as well as to prioritize multi-engine craft over glider and prop planes.
@@ -181,6 +183,8 @@ ax.set_ylabel("Total Incidents")
 
 plt.show()
 ```
+
+![Screenshot](data/images/all-by-weather-plot.png)
 
 From this information, it becomes immediately apparent that visual meteorological conditions account for more crashes than instrument meteorological conditions conditions (and unknown conditions make up a miniscule percentage of the data). Although this might not make immediate sense, as visual meteorological conditions conditions would be preferable, it could be ascertained that such conditions cause a "false sense of security" or perhaps even a lack of reliance on tools to assist in flying.
 
