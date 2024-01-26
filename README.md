@@ -81,11 +81,13 @@ Then plot the total fatal accidents by amateur aircraft versus professional airc
 ```
 fig, ax = plt.subplots()
 
-ax.bar("Amateur Craft", total_amateur_fatal, color = 'darkblue')
+fig.set_figwidth(4)
 
-ax.bar("Professional Craft", total_prof_fatal, color = 'darkblue')
+ax.bar("Amateur Craft", total_amateur_fatal, color = 'darkblue', width = 0.5)
 
-ax.set_title("Fatal Incidents by Aircraft Build Type")
+ax.bar("Professional Craft", total_prof_fatal, color = 'darkblue', width = 0.5)
+
+ax.set_title("Fatal Incidents by Aircraft Build")
 ax.set_ylabel("Total Fatal Incidents")
 
 plt.show()
@@ -127,11 +129,13 @@ Finally, plot the total fatal accidents by zero- or single-engine aircraft compa
 ```
 fig, ax = plt.subplots()
 
-ax.bar("Amateur Craft", total_amateur_fatal, color = 'darkblue')
+fig.set_figwidth(4)
 
-ax.bar("Professional Craft", total_prof_fatal, color = 'darkblue')
+ax.bar("0-1 Engine Craft", total_small_fatal, color = 'goldenrod', width = 0.5)
 
-ax.set_title("Fatal Incidents by Aircraft Build Type")
+ax.bar("2+ Engine Craft", total_large_fatal, color = 'goldenrod', width = 0.5)
+
+ax.set_title("Fatal Incidents by Engine Number")
 ax.set_ylabel("Total Fatal Incidents")
 
 plt.show()
@@ -166,13 +170,13 @@ To conclude, plot the total accidents by VMC or IMC conditions.
 ```
 fig, ax = plt.subplots()
 
-fig.set_figwidth(10)
+fig.set_figwidth(4)
 
-ax.bar("VMC", total_vmc, color = 'darkred')
+ax.bar("VMC", total_vmc, color = 'darkred', width = 0.5)
 
-ax.bar("IMC", total_imc, color = 'darkred')
+ax.bar("IMC", total_imc, color = 'darkred', width = 0.5)
 
-ax.set_title("Incidents by Weather Condition Type")
+ax.set_title("Incidents by Weather Condition")
 ax.set_ylabel("Total Incidents")
 
 plt.show()
